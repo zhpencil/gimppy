@@ -193,9 +193,53 @@ def _save_via_pillow(filepath: str, image_data: dict, **kwargs) -> None:
     if not layers:
         raise FileIOError("No layers to save")
 
-    pixels = layers[0].get("pixels")
-    if pixels is None:
-        raise FileIOError("Layer has no pixel data")
+    width = image_data.get("width", layers[0]["pixels"].shape[1])
+    height = image_data.get("height", layers[0]["pixels"].shape[0])
+
+    canvas = np.zeros((height, width, 4), dtype=np.float32)
+    canvas[:, :, 3] = 255.0
+
+    for layer in layers:
+        pixels = layer.get("pixels")
+        if pixels is None:
+            continue
+        if pixels.ndim != 3 or pixels.shape[2] < 3:
+            continue
+
+        src = pixels.astype(np.float32)
+        if src.shape[2] == 3:
+            alpha = np.full((*src.shape[:2], 1), 255.0)
+            src = np.concatenate([src, alpha], axis=2)
+
+        src_alpha = src[:, :, 3:4] / 255.0
+        src_rgb = src[:, :, :3]
+
+        ly = layer.get("offset_y", 0)
+        lx = layer.get("offset_x", 0)
+        lh, lw = src.shape[:2]
+
+        dy0 = max(0, ly)
+        dx0 = max(0, lx)
+        sy0 = max(0, -ly)
+        sx0 = max(0, -lx)
+        dh = min(lh - sy0, height - dy0)
+        dw = min(lw - sx0, width - dx0)
+        if dh <= 0 or dw <= 0:
+            continue
+
+        dst_rgb = canvas[dy0:dy0+dh, dx0:dx0+dw, :3]
+        dst_a = canvas[dy0:dy0+dh, dx0:dx0+dw, 3:4] / 255.0
+        src_a = src_alpha[sy0:sy0+dh, sx0:sx0+dw]
+
+        out_a = src_a + dst_a * (1.0 - src_a)
+        safe = np.where(out_a > 0, out_a, 1.0)
+        out_rgb = (src_rgb[sy0:sy0+dh, sx0:sx0+dw] * src_a +
+                   dst_rgb * dst_a * (1.0 - src_a)) / safe
+
+        canvas[dy0:dy0+dh, dx0:dx0+dw, :3] = out_rgb
+        canvas[dy0:dy0+dh, dx0:dx0+dw, 3:4] = out_a * 255.0
+
+    pixels = np.clip(canvas, 0, 255).astype(np.uint8)
 
     if pixels.ndim == 3:
         channels = pixels.shape[2]

@@ -713,7 +713,9 @@ class GimpImage:
             "height": self.height,
             "image_type": self.image_type,
             "layers": [{"pixels": l.pixels, "name": l.name,
-                        "has_alpha": l.has_alpha} for l in self.layers],
+                        "has_alpha": l.has_alpha,
+                        "offset_x": l.offset_x, "offset_y": l.offset_y,
+                        "opacity": l.opacity} for l in self.layers],
         }
         save_image(filepath, data, **kwargs)
         self._dirty = False
