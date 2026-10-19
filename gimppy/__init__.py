@@ -15,7 +15,7 @@ Usage:
     img.save("output.png")
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __all__ = [
     "GimpImage",
     "GimpLayer",

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gimppy"
-version = "1.0.0"
-description = "Python class library extracted from GIMP source code for programmatic image manipulation"
+version = "1.0.1"
+description = "Python image processing library originated from GIMP"
 readme = "README.md"
 license = "GPL-3.0-only"
 requires-python = ">=3.8"
@@ -40,10 +40,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/gimppy/gimppy"
-Documentation = "https://github.com/gimppy/gimppy#readme"
-Source = "https://github.com/gimppy/gimppy"
-Tracker = "https://github.com/gimppy/gimppy/issues"
+Homepage = "https://github.com/zhpencil/gimppy"
+Documentation = "https://github.com/zhpencil/gimppy#readme"
+Source = "https://github.com/zhpencil/gimppy"
+Tracker = "https://github.com/zhpencil/gimppy/issues"
 
 [tool.setuptools.packages.find]
 include = ["gimppy*"]
