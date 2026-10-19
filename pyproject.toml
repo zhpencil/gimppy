@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gimppy"
+version = "1.0.0"
+description = "Python class library extracted from GIMP source code for programmatic image manipulation"
+readme = "README.md"
+license = "GPL-3.0-only"
+requires-python = ">=3.8"
+authors = [
+    {name = "gimppy contributors"},
+]
+keywords = ["gimp", "image-processing", "image-manipulation", "graphics", "numpy"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Multimedia :: Graphics :: Editors",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy>=1.20",
+]
+
+[project.optional-dependencies]
+pillow = ["Pillow>=9.0"]
+dev = [
+    "pytest>=7.0",
+    "Pillow>=9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/gimppy/gimppy"
+Documentation = "https://github.com/gimppy/gimppy#readme"
+Source = "https://github.com/gimppy/gimppy"
+Tracker = "https://github.com/gimppy/gimppy/issues"
+
+[tool.setuptools.packages.find]
+include = ["gimppy*"]
+exclude = ["tests*", "examples*", "test_output*"]
+
+[tool.setuptools.package-data]
+gimppy = ["py.typed"]

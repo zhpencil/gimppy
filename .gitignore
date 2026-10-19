@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+test_output/
+
+# Test data
+lena.jpg
+
+# Embedded Python (not part of the package)
+python/
+
+# GIMP source reference (not part of the package)
+gimp-master/
+
+# Test artifacts
+*.pyc
+.pytest_cache/
